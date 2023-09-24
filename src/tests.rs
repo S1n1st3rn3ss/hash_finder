@@ -37,7 +37,7 @@ mod tests {
         thread::spawn(move || find_relevant_hashes(16, 16, tx));
 
         for received in rx {
-            assert_eq!(received, Err(format!("Didn't find all {} hashes, found {}", 16, 16)));
+            assert_eq!(received, Err(format!("Didn't find all {} hashes, found {}", 16, 0)));
         }
     }
 }
