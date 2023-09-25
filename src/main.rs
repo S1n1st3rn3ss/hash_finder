@@ -2,13 +2,26 @@ mod tests;
 
 use std::{env, thread};
 use std::sync::mpsc;
-use std::sync::mpsc::Sender;
 use sha256::{digest};
+use clap::Parser;
+
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    #[arg(short = 'N')]
+    number: String,
+    #[arg(short = 'F')]
+    find: String,
+}
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let zero_count = args[1].parse::<i32>().unwrap();
-    let hash_count = args[2].parse::<i32>().unwrap();
+    // let args: Vec<String> = env::args().collect();
+    let cli = Cli::parse();
+    // let mut args_hashmap: HashMap<String, String>;
+    // slightly basic, but avoids adding
+    // args_hashmap.insert(args[1], args[2]);
+    let zero_count = cli.number.parse::<i32>().expect("argument N should be given");
+    let hash_count = cli.find.parse::<i32>().expect("argument F should be given");
 
     run(zero_count, hash_count);
 }
@@ -27,7 +40,7 @@ fn run(zero_count: i32, hash_count: i32) {
 }
 // Runs through all i32 values to find hashes with needed amount of zeros
 // Possible errors: Returns a String if not enough hashes are found
-fn find_relevant_hashes(zero_count: i32, hash_count: i32, sender: Sender<Result<(i32, String), String>>) {
+fn find_relevant_hashes(zero_count: i32, hash_count: i32, sender: mpsc::Sender<Result<(i32, String), String>>) {
     let mut counter: i32 = hash_count;
     let zero: i32 = zero_count;
     const MAX_I32: i32 = i32::MAX;

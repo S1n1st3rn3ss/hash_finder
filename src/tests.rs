@@ -3,6 +3,13 @@ mod tests {
     use std::collections::HashMap;
     use crate::*;
 
+    // check basic algorithm correctness
+    #[test]
+    fn hash_digest_correctness() {
+        assert_eq!(create_hash_digest(1), "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b");
+        assert_eq!(create_hash_digest(2), "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35");
+        assert_eq!(create_hash_digest(3), "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce");
+    }
     #[test]
     fn example_one() {
         let (tx, rx) = mpsc::channel();
