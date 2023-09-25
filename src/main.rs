@@ -1,6 +1,6 @@
 mod tests;
 
-use std::{env, thread};
+use std::{thread};
 use std::sync::mpsc;
 use sha256::{digest};
 use clap::Parser;
@@ -15,11 +15,7 @@ struct Cli {
 }
 
 fn main() {
-    // let args: Vec<String> = env::args().collect();
     let cli = Cli::parse();
-    // let mut args_hashmap: HashMap<String, String>;
-    // slightly basic, but avoids adding
-    // args_hashmap.insert(args[1], args[2]);
     let zero_count = cli.number.parse::<i32>().expect("argument N should be given");
     let hash_count = cli.find.parse::<i32>().expect("argument F should be given");
 
@@ -56,7 +52,7 @@ fn find_relevant_hashes(zero_count: i32, hash_count: i32, sender: mpsc::Sender<R
     }
     // return an Err() in case not all hashes are found
     if counter != 0 {
-        // receiver should never drop so .unwrap() is safe
+        // receiver should never drop so .unwrap() never panics
         sender.send(Err(format!("Didn't find all {} hashes, found {}", hash_count, hash_count - counter))).unwrap();
     }
 }
