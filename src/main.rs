@@ -15,11 +15,7 @@ struct Cli {
 }
 
 fn main() {
-    // let args: Vec<String> = env::args().collect();
     let cli = Cli::parse();
-    // let mut args_hashmap: HashMap<String, String>;
-    // slightly basic, but avoids adding
-    // args_hashmap.insert(args[1], args[2]);
     let zero_count = cli.number.parse::<i32>().expect("argument N should be given");
     let hash_count = cli.find.parse::<i32>().expect("argument F should be given");
 
